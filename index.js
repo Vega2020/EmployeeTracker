@@ -33,9 +33,9 @@ function startTracker() {
           "Add department",
           "Add role",
           "Add employee",
-          "View department",
-          "View role",
-          "View employee",
+          "View departments",
+          "View roles",
+          "View employees",
           "Update employee role",
           "exit"
         ],
@@ -55,15 +55,15 @@ function startTracker() {
           addEmp();
           break;
   
-        case "View department":
+        case "View departments":
           viewDept();
           break;
 
-        case "View role":
+        case "View roles":
           viewRole();
           break;
            
-        case "View employee":
+        case "View employees":
            viewEmp();
            break;
            
@@ -163,7 +163,7 @@ function viewDept() {
         message: "Return to menu?"
       }
     ).then(function(answer) {
-      if (answer === true) {
+      if (answer.return === true) {
         startTracker();
       } else {
         connection.end();
@@ -173,14 +173,57 @@ function viewDept() {
   });
 };
 
-  
-
-// write a function to view  roles, 
-  
+// write a function to view roles, 
+function viewRole() {
+  let query = "SELECT * FROM role";
+  connection.query(query, function(err, res){
+    if (err) {throw err;}
+    else {
+    console.table(res);
+    inquirer.prompt([
+      {
+        name: "return",
+        type: "confirm",
+        message: "Return to menu?"
+      }
+    ]).then(function(answer) {
+      console.log(answer);
+      if (answer.return === true) {
+        startTracker();
+      } else if (answer.return === false) {
+        connection.end();
+      };
+    });
+    };
+  });
+}; 
 
 
 // write a function to view  employees,
-
+function viewEmp() {
+  let query = "SELECT * FROM employee";
+  connection.query(query, function(err, res){
+    if (err) {throw err;}
+    else {
+    console.table(res);
+    inquirer.prompt([
+      {
+        name: "return",
+        type: "confirm",
+        message: "Return to menu?"
+      }
+    ]).then(function(answer) {
+      console.log(answer);
+      if (answer.return === true) {
+        startTracker();
+      };
+      if (answer.return === false) {
+        connection.end();
+      };
+    });
+    };
+  });
+}; 
 
 
 // write a function to Update employee roles
