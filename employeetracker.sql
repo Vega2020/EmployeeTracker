@@ -11,7 +11,7 @@ CREATE TABLE role IN company (
     salary  DECIMAL,
     department_id INT
 );
-
+ 
 CREATE TABLE employee IN company (
     id INT PRIMARY KEY,
     first_name VARCHAR(30),
