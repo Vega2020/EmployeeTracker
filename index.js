@@ -22,7 +22,6 @@ var connection = mysql.createConnection({
     startTracker();
   });
 
-// write a function to add departments, 
 
 function startTracker() {
     inquirer
@@ -79,6 +78,26 @@ function startTracker() {
       });
   }
 
+// write a function to add departments, 
+function addDept() {
+  inquirer
+    .prompt({
+      name: "name",
+      type: "input",
+      message: "Department Name:"
+    })
+    .then(function(answer) {
+      var query = "INSERT INTO department (name) VALUES (?)";
+      connection.query(query, [answer.name], function(err, res) {
+        if (err) {throw err;}
+        else {
+        console.log("Department added!");
+        startTracker();
+        }
+      });
+    });
+};
+
 // write a function to add roles, 
 function addRole() {
     inquirer
@@ -91,28 +110,43 @@ function addRole() {
         name: "salary",
         type: "number",
         message: "What salary does this role receive?"
-      },
-      {
-        name: "department",
-        type: "input",
-        message: "What is the department ID number of this role?"
       }])
       .then(function(answer) {
-        var query = "INSERT into role (title, salary, department_id) VALUES (?, ?, ?)";
-        connection.query(query, [answer.title, answer.salary, answer.department_id], function(err, res) {
+        var query = "INSERT into role (title, salary, department_id) VALUES (?, ?)";
+        connection.query(query, [answer.title, answer.salary], function(err, res) {
           if (err) {throw err;}
           else {
-          console.log("success!") 
-          console.log(res);
+          console.log("Role added!");
           startTracker();
           }
         });
       });
-  }
+  };
 
 //write a function to add employees
-
-
+function addEmp() {
+  inquirer
+    .prompt([{
+      name: "first_name",
+      type: "input",
+      message: "Employee first name:"
+    },
+    {
+      name: "last_name",
+      type: "input",
+      message: "Employee last name:"
+    }])
+    .then(function(answer) {
+      var query = "INSERT into employee (first_name, last_name) VALUES (?, ?)";
+      connection.query(query, [answer.first_name, answer.last_name], function(err, res) {
+        if (err) {throw err;}
+        else {
+        console.log("Role added!");
+        startTracker();
+        }
+      });
+    });
+};
 
 
 // write a function to view departments
