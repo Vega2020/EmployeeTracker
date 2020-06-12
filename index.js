@@ -14,7 +14,7 @@ var connection = mysql.createConnection({
   
     // Your password
     password: "",
-    database: "top_songsDB"
+    database: "company"
   });
   
   connection.connect(function(err) {
@@ -26,7 +26,7 @@ var connection = mysql.createConnection({
 
 function startTracker() {
     inquirer
-      .prompt({
+      .prompt([{
         name: "action",
         type: "list",
         message: "What would you like to do?",
@@ -39,9 +39,10 @@ function startTracker() {
           "View employee",
           "Update employee role",
           "exit"
-        ]
-      })
+        ],
+      }])
       .then(function(answer) {
+        console.log(answer);
         switch (answer.action) {
         case "Add department":
           addDept();
@@ -79,7 +80,35 @@ function startTracker() {
   }
 
 // write a function to add roles, 
-
+function addRole() {
+    inquirer
+      .prompt([{
+        name: "title",
+        type: "input",
+        message: "Name the new role:"
+      },
+      {
+        name: "salary",
+        type: "number",
+        message: "What salary does this role receive?"
+      },
+      {
+        name: "department",
+        type: "input",
+        message: "What is the department ID number of this role?"
+      }])
+      .then(function(answer) {
+        var query = "INSERT into role (title, salary, department_id) VALUES (?, ?, ?)";
+        connection.query(query, [answer.title, answer.salary, answer.department_id], function(err, res) {
+          if (err) {throw err;}
+          else {
+          console.log("success!") 
+          console.log(res);
+          startTracker();
+          }
+        });
+      });
+  }
 
 //write a function to add employees
 
