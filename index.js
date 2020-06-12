@@ -225,5 +225,44 @@ function viewEmp() {
 
 // write a function to Update employee roles
 function updateEmp() {
-  let query = "UPDATE employee SET "
-}
+  let employeeRoster = [];
+  let rolesList = [];
+  connection.query("SELECT id, first_name, last_name FROM employee", function(err, res) {
+    if (err) throw err;
+    for (let i = 0; i < res.length; i++) {
+      employeeRoster.push("ID#" + res[i].id + " " + res[i].first_name + " " + res[i].last_name);
+      console.log(employeeRoster);
+    };
+  });
+  connection.query("SELECT id, title FROM employee",
+  function(err, res) {
+    if (err) throw err;
+    for (let i = 0; i < res.length; i++) {
+      rolesList.push("ID#" + res[i].title);
+      console.log(rolesList);
+    };
+  });
+  inquirer
+    .prompt([{
+      name: "employeeNum",
+      type: "rawlist",
+      message: "Choose ID number of employee to update",
+      choices: [employeeRoster]
+    },
+  {
+    name: "newRole",
+    type: "rawlist",
+    message: "Choose ID number of new role for this employee",
+    choices: [rolesList]
+  }])
+    .then(function({employeeNum, newRole}) {
+      let query = "UPDATE employee SET role_id = ? WHERE id = ?";
+      connection.query(query, [answer.newRole, answer.employeeNum], function(err, res) {
+        if (err) {throw err;}
+        else {
+        console.log("Employee role updated!");
+        startTracker();
+        }
+      });
+    });
+};
