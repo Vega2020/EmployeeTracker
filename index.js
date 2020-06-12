@@ -76,7 +76,7 @@ function startTracker() {
           break;
         }
       });
-  }
+};
 
 // write a function to add departments, 
 function addDept() {
@@ -121,7 +121,7 @@ function addRole() {
           }
         });
       });
-  };
+};
 
 //write a function to add employees
 function addEmp() {
@@ -137,7 +137,7 @@ function addEmp() {
       message: "Employee last name:"
     }])
     .then(function(answer) {
-      var query = "INSERT into employee (first_name, last_name) VALUES (?, ?)";
+      var query = "INSERT INTO employee (first_name, last_name) VALUES (?, ?)";
       connection.query(query, [answer.first_name, answer.last_name], function(err, res) {
         if (err) {throw err;}
         else {
@@ -147,7 +147,6 @@ function addEmp() {
       });
     });
 };
-
 
 // write a function to view departments
 function viewDept() {
@@ -198,7 +197,6 @@ function viewRole() {
   });
 }; 
 
-
 // write a function to view  employees,
 function viewEmp() {
   let query = "SELECT * FROM employee";
@@ -225,5 +223,7 @@ function viewEmp() {
   });
 }; 
 
-
 // write a function to Update employee roles
+function updateEmp() {
+  let query = "UPDATE employee SET "
+}
