@@ -112,7 +112,7 @@ function addRole() {
         message: "What salary does this role receive?"
       }])
       .then(function(answer) {
-        var query = "INSERT into role (title, salary, department_id) VALUES (?, ?)";
+        var query = "INSERT into role (title, salary) VALUES (?, ?)";
         connection.query(query, [answer.title, answer.salary], function(err, res) {
           if (err) {throw err;}
           else {
