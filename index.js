@@ -1,7 +1,7 @@
 //Set up dependencies:
 const mysql = require("mysql");
 const inquirer = require("inquirer");
-const consoleTable = require("console.table");
+const cTable = require("console.table");
 
 var connection = mysql.createConnection({
     host: "localhost",
@@ -150,6 +150,28 @@ function addEmp() {
 
 
 // write a function to view departments
+function viewDept() {
+  let query = "SELECT * FROM department";
+  connection.query(query, function(err, res){
+    if (err) {throw err;}
+    else {
+    console.table(res);
+    inquirer.prompt(
+      {
+        name: "return",
+        type: "confirm",
+        message: "Return to menu?"
+      }
+    ).then(function(answer) {
+      if (answer === true) {
+        startTracker();
+      } else {
+        connection.end();
+      };
+    });
+    };
+  });
+};
 
   
 
